@@ -296,10 +296,64 @@
             updateCacheTable();
         }
 
+        function generateRandomSequence(length) {
+            // Generate an array of random numbers within the range [0, length)
+            return Array.from({ length: length }, () => Math.floor(Math.random() * length));
+        }
+
+
         function randomTest() {
-            // Your logic for random test case
-            // Similar to the existing fullAssociativeTest function
-            // ...
+            // Check if the current step is within the total number of accesses
+            if (currentStep < 4 * memoryBlocks.length) {
+                // Clear the cache table before starting the test
+                clearCacheTable();
+
+                // Generate a random sequence of 4n memory block accesses
+                let randomSequence = generateRandomSequence(4 * memoryBlocks.length);
+
+                // Increment the total accesses only once per step
+                totalAccesses++;
+
+                let blockNumber = randomSequence[currentStep];
+
+                // Check if the block is in the cache
+                let cacheIndex = cacheMemory.indexOf(blockNumber);
+                if (cacheIndex !== -1) {
+                    // Cache hit
+                    cacheHits++;
+                } else {
+                    // Cache miss
+                    cacheMisses++;
+
+                    if (cacheMemory.includes(null)) {
+                        // Cache is not full, use first come first serve (FIFO) or direct mapping
+                        cacheIndex = cacheMemory.findIndex((block) => block === null);
+                    } else {
+                        // Cache is full, use random replacement algorithm
+                        cacheIndex = Math.floor(Math.random() * cacheSize);
+                    }
+
+                    // Update cache
+                    cacheMemory[cacheIndex] = blockNumber;
+                }
+
+                // Update the text log only if it's a new step
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+
+                // Update the cache table after each step
+                updateCacheTable();
+
+                // Increment the current step after completing the simulation for the current step
+                currentStep++;
+
+                // Display final statistics if the simulation is complete
+                if (currentStep >= 4 * memoryBlocks.length) {
+                    updateTextLog(`--- Test Case Complete ---`);
+                    updateTextLog(`Total Accesses: ${totalAccesses}`);
+                    updateTextLog(`Cache Hits: ${cacheHits}`);
+                    updateTextLog(`Cache Misses: ${cacheMisses}`);
+                }
+            }
         }
 
         function midRepeatTest() {
@@ -362,7 +416,9 @@
                 sequentialTest();
                 }
             } else if (selectedTestCase === 'random') {
+                while (currentStep < memoryBlocks.length * 4) {
                 randomTest();
+                }
             } else if (selectedTestCase === 'midRepeat') {
                 midRepeatTest();
             }
