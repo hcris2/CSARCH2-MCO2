@@ -362,11 +362,84 @@
             }
         }
 
-        function midRepeatTest() {
-            // Your logic for mid-repeat test case
-            // Similar to the existing fullAssociativeTest function
-            // ...
+        function generateMidRepeatSequence(n) {
+            let sequence = [];
+
+
+            // Repeat the sequence in the middle twice up to n-1 blocks
+            for (let m = 0; m <4; m++){
+                sequence.push(0);
+                for (let i = 0; i < 2; i++) {
+                    for (let j = 1; j < n-1; j++) {
+                        sequence.push(j);
+                    }
+                }
+
+                // Continue up to 2n
+                for (let k = n-1; k < 2 * n; k++) {
+                    sequence.push(k);
+                }
+            }
+            console.log(sequence.length);
+            return sequence;
         }
+
+
+        function midRepeatTest() {
+            // Check if the current step is within the total number of accesses
+            
+            // Generate the mid-repeat sequence
+            let midRepeatSequence = generateMidRepeatSequence(memoryBlocks.length);
+
+            if (currentStep < midRepeatSequence.length) {
+                // Clear the cache table before starting the test
+                clearCacheTable();
+
+                // Increment the total accesses only once per step
+                totalAccesses++;
+
+                let blockNumber = midRepeatSequence[currentStep];
+
+                // Check if the block is in the cache
+                let cacheIndex = cacheMemory.indexOf(blockNumber);
+                if (cacheIndex !== -1) {
+                    // Cache hit
+                    cacheHits++;
+                } else {
+                    // Cache miss
+                    cacheMisses++;
+
+                    if (cacheMemory.includes(null)) {
+                        // Cache is not full, use first come first serve (FIFO) or direct mapping
+                        cacheIndex = cacheMemory.findIndex((block) => block === null);
+                    } else {
+                        // Cache is full, use random replacement algorithm
+                        cacheIndex = Math.floor(Math.random() * cacheSize);
+                    }
+
+                    // Update cache
+                    cacheMemory[cacheIndex] = blockNumber;
+                }
+
+                // Update the text log only if it's a new step
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+
+                // Update the cache table after each step
+                updateCacheTable();
+
+                // Increment the current step after completing the simulation for the current step
+                currentStep++;
+
+                // Display final statistics if the simulation is complete
+                if (currentStep >= midRepeatSequence.length) {
+                    updateTextLog(`--- Test Case Complete ---`);
+                    updateTextLog(`Total Accesses: ${totalAccesses}`);
+                    updateTextLog(`Cache Hits: ${cacheHits}`);
+                    updateTextLog(`Cache Misses: ${cacheMisses}`);
+                }
+            }
+        }
+
 
 
 
@@ -426,7 +499,11 @@
                 randomTest();
                 }
             } else if (selectedTestCase === 'midRepeat') {
+                    // Generate the mid-repeat sequence
+                let midRepeatSequence = generateMidRepeatSequence(memoryBlocks.length);
+                while (currentStep < midRepeatSequence.length) {
                 midRepeatTest();
+                }
             }
             
         }
