@@ -297,9 +297,15 @@
         }
 
         function generateRandomSequence(length) {
-            // Generate an array of random numbers within the range [0, length)
-            return Array.from({ length: length }, () => Math.floor(Math.random() * length));
+            let randomSequence = [];
+            
+            for (let i = 0; i < length; i++) {
+                randomSequence.push(Math.floor(Math.random() * length));
+            }
+
+            return randomSequence;
         }
+
 
 
         function randomTest() {
