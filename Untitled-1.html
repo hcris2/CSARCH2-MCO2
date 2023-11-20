@@ -216,6 +216,9 @@
         let memoryBlocks = []; // Array to store memory blocks
         let cacheMemory = new Array(cacheSize).fill(null); // Initialize cache memory array
         let currentStep = 0; // Variable to keep track of the current simulation step
+        let totalAccesses = 0;
+        let cacheHits = 0;
+        let cacheMisses = 0;
 
         function startSimulation() {
             // Clear the text log
@@ -226,7 +229,10 @@
 
             // Clear the cache table
             clearCacheTable();
-
+            
+            totalAccesses = 0;
+            cacheHits = 0;
+            cacheMisses = 0;
             // Initialize memory blocks
             let numberOfBlocks = parseInt(document.getElementById('memoryBlocks').value);
             for (let i = 0; i < numberOfBlocks; i++) {
@@ -238,52 +244,44 @@
             //fullAssociativeTest();
         }
 
-        function fullAssociativeTest() {
-            let totalAccesses = 0;
-            let cacheHits = 0;
-            let cacheMisses = 0;
+        function sequentialTest() {
+            // Calculate the current iteration values
+            let i = Math.floor(currentStep / memoryBlocks.length);
+            let blockIndex = currentStep % memoryBlocks.length;
 
-            for (let repeat = 0; repeat < 4; repeat++) {
-                for (let i = 0; i < memoryBlocks.length; i++) {
-                    // Check if the current step is less than the total accesses
-                    
-                    console.log("currentStep: ", + currentStep + " ", "totalAccess: ",totalAccesses)
-                    if (currentStep  < totalAccesses) {
-                        console.log('hey')
-                        continue;
-                    }
+            // Check if the current step is within the total number of accesses
+            if (currentStep < memoryBlocks.length * 4) {
+                // Increment the total accesses only once per step
+                totalAccesses++;
 
-                    // Increment the total accesses
-                    totalAccesses++;
+                // Process the block based on the current iteration
+                let blockNumber = memoryBlocks[blockIndex];
 
-                    let blockNumber = memoryBlocks[i];
+                // Check if the block is in the cache
+                let cacheIndex = cacheMemory.indexOf(blockNumber);
+                if (cacheIndex !== -1) {
+                    // Cache hit
+                    cacheHits++;
+                } else {
+                    // Cache miss
+                    cacheMisses++;
 
-                    // Check if the block is in the cache
-                    let cacheIndex = cacheMemory.indexOf(blockNumber);
-                    if (cacheIndex !== -1) {
-                        // Cache hit
-                        cacheHits++;
+                    if (cacheMemory.includes(null)) {
+                        // Cache is not full, use first come first serve (FIFO) or direct mapping
+                        cacheIndex = cacheMemory.findIndex((block) => block === null);
                     } else {
-                        // Cache miss
-                        cacheMisses++;
-
-                        if (cacheMemory.includes(null)) {
-                            // Cache is not full, use first come first serve (FIFO) or direct mapping
-                            cacheIndex = cacheMemory.findIndex((block) => block === null);
-                        } else {
-                            // Cache is full, use random replacement algorithm
-                            cacheIndex = Math.floor(Math.random() * cacheSize);
-                        }
-
-                        // Update cache
-                        cacheMemory[cacheIndex] = blockNumber;
+                        // Cache is full, use random replacement algorithm
+                        cacheIndex = Math.floor(Math.random() * cacheSize);
                     }
 
-                    // Update the text log only if it's a new step
-                    updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+                    // Update cache
+                    cacheMemory[cacheIndex] = blockNumber;
                 }
+
+                // Update the text log only if it's a new step
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
             }
-            
+
             // Increment the current step after completing the simulation for the current step
             currentStep++;
 
@@ -296,8 +294,20 @@
 
             // Update the cache table after the loop completes
             updateCacheTable();
-
         }
+
+        function randomTest() {
+            // Your logic for random test case
+            // Similar to the existing fullAssociativeTest function
+            // ...
+        }
+
+        function midRepeatTest() {
+            // Your logic for mid-repeat test case
+            // Similar to the existing fullAssociativeTest function
+            // ...
+        }
+
 
 
         function updateCacheTable() {
@@ -329,28 +339,36 @@
             }
         }
 
-        function stepByStep() {
-        // Check if there are more simulation steps to execute
-        if (currentStep < memoryBlocks.length * 4) {
-            // Perform one step of the simulation
-            fullAssociativeTest();
 
-            // Check if the simulation is complete
-            if (currentStep >= memoryBlocks.length * 4) {
-                updateTextLog(`Simulation completed.`);
+
+        function stepByStep() {
+            // Perform the selected test case
+            let selectedTestCase = document.getElementById('testCases').value;
+            if (selectedTestCase === 'sequential') {
+                sequentialTest();
+            } else if (selectedTestCase === 'random') {
+                randomTest();
+            } else if (selectedTestCase === 'midRepeat') {
+                midRepeatTest();
             }
-        } else {
-            // Simulation is already complete
-            updateTextLog(`Simulation already completed.`);
         }
-    }
+
 
         function skipToEnd() {
             // Code to skip to the end of the simulation
-            startSimulation();
-            currentStep = memoryBlocks.length * 4;
-            fullAssociativeTest();
+            let selectedTestCase = document.getElementById('testCases').value;
+            if (selectedTestCase === 'sequential') {
+                while (currentStep < memoryBlocks.length * 4) {
+                sequentialTest();
+                }
+            } else if (selectedTestCase === 'random') {
+                randomTest();
+            } else if (selectedTestCase === 'midRepeat') {
+                midRepeatTest();
+            }
+            
         }
+
 
         function updateTextLog(message) {
             var textLog = document.getElementById('textLog');
