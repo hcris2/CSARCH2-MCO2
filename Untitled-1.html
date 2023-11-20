@@ -287,9 +287,7 @@
 
             // Display final statistics if the simulation is complete
             if (currentStep >= memoryBlocks.length * 4) {
-                updateTextLog(`Total Accesses: ${totalAccesses}`);
-                updateTextLog(`Cache Hits: ${cacheHits}`);
-                updateTextLog(`Cache Misses: ${cacheMisses}`);
+                displayFinalStatistics();
             }
 
             // Update the cache table after the loop completes
@@ -354,10 +352,7 @@
 
                 // Display final statistics if the simulation is complete
                 if (currentStep >= 4 * memoryBlocks.length) {
-                    updateTextLog(`--- Test Case Complete ---`);
-                    updateTextLog(`Total Accesses: ${totalAccesses}`);
-                    updateTextLog(`Cache Hits: ${cacheHits}`);
-                    updateTextLog(`Cache Misses: ${cacheMisses}`);
+                    displayFinalStatistics();
                 }
             }
         }
@@ -432,10 +427,7 @@
 
                 // Display final statistics if the simulation is complete
                 if (currentStep >= midRepeatSequence.length) {
-                    updateTextLog(`--- Test Case Complete ---`);
-                    updateTextLog(`Total Accesses: ${totalAccesses}`);
-                    updateTextLog(`Cache Hits: ${cacheHits}`);
-                    updateTextLog(`Cache Misses: ${cacheMisses}`);
+                    displayFinalStatistics();
                 }
             }
         }
@@ -508,6 +500,17 @@
             
         }
 
+        function displayFinalStatistics() {
+            let hitRate = cacheHits / totalAccesses;
+            let missRate = cacheMisses / totalAccesses;
+
+            updateTextLog(`--- Test Case Complete ---`);
+            updateTextLog(`Total Accesses: ${totalAccesses}`);
+            updateTextLog(`Cache Hits: ${cacheHits}`);
+            updateTextLog(`Cache Misses: ${cacheMisses}`);
+            updateTextLog(`Cache Hit Rate: ${(hitRate * 100).toFixed(2)}%`);
+            updateTextLog(`Cache Miss Rate: ${(missRate * 100).toFixed(2)}%`);
+        }
 
         function updateTextLog(message) {
             var textLog = document.getElementById('textLog');
