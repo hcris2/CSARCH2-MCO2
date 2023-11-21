@@ -7,7 +7,7 @@ let cacheHits = 0;
 let cacheMisses = 0;
 
 let cacheAccessTime = 1; // Cache access time in ns
-let missPenaltyTime = 10 * cacheSize; // Miss penalty time in ns
+let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
 
 
 // REPLACEMENT ALGORITHM USED: Math.floor(Math.random() * cacheSize)
@@ -296,7 +296,7 @@ let missPenaltyTime = 10 * cacheSize; // Miss penalty time in ns
             let hitRate = cacheHits / totalAccesses;
             let missRate = cacheMisses / totalAccesses;
             let averageAccessTime = (hitRate * cacheAccessTime) + (missRate * missPenaltyTime);
-            let totalAccessTime = totalAccesses * averageAccessTime;
+            let totalAccessTime = cacheHits*cacheSize + cacheMisses*missRate;
 
             updateTextLog(`--- Test Case Complete ---`);
             updateTextLog(`Total Accesses: ${totalAccesses}`);
