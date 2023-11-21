@@ -33,7 +33,16 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
 
             // Perform the sequential sequence test case
             currentStep = 0;
-            //fullAssociativeTest();
+            
+            let selectedTestCase = document.getElementById('testCases').value;
+            if (selectedTestCase === 'sequential') {
+                sequentialTest();
+            } else if (selectedTestCase === 'random') {
+                randomTest();
+            } else if (selectedTestCase === 'midRepeat') {
+                midRepeatTest();
+            }
+        
         }
 
         function sequentialTest() {
