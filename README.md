@@ -1,11 +1,12 @@
 # CSARCH2-MCO2
 
 ## How to run the program
-1. Choose a test case
-2. Enter the number of blocks
-3. Click **Start Simulation**
-4. Click **step-by-step** or **skip to end**
-5. To start a new simulation, press **Start Simulation** to reset the values.
+1. Open `index.html` on your browser
+2. Choose a test case
+3. Enter the number of blocks
+4. Click **Start Simulation**
+5. Click **step-by-step** or **skip to end**
+6. To start a new simulation, press **Start Simulation** to reset the values.
 
 
 
