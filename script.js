@@ -80,7 +80,8 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
                 }
 
                 // Update the text log only if it's a new step
-                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`, blockNumber, cacheIndex);
+
             }
 
             // Increment the current step after completing the simulation for the current step
@@ -143,7 +144,8 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
                 }
 
                 // Update the text log only if it's a new step
-                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`, blockNumber, cacheIndex);
+
 
                 // Update the cache table after each step
                 updateCacheTable();
@@ -218,7 +220,8 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
                 }
 
                 // Update the text log only if it's a new step
-                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`);
+                updateTextLog(`Step: ${totalAccesses}, Block: ${blockNumber}, Cache Hit: ${cacheHits}, Cache Miss: ${cacheMisses}`, blockNumber, cacheIndex);
+
 
                 // Update the cache table after each step
                 updateCacheTable();
@@ -317,7 +320,13 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
             updateTextLog(`Total Access Time: ${totalAccessTime} ns`);
         }
 
-        function updateTextLog(message) {
+        function updateTextLog(message, blockNumber, cacheIndex) {
             var textLog = document.getElementById('textLog');
+            // Append the message to the text log
             textLog.value += message + '\n';
+
+            // If blockNumber and cacheIndex are provided, append information about block placement
+            if (blockNumber !== undefined && cacheIndex !== undefined) {
+                textLog.value += `Block ${blockNumber} placed in Cache Index ${cacheIndex}\n`;
+            }
         }
