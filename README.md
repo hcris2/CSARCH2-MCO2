@@ -23,7 +23,7 @@ Number of Memory Blocks used: 32
   - However, because of the random replacement algorithm, the average hitrate accross 5 tries was 15% and the average missrate was around 85%. This is because blocks that would normally be a hit if the random replacement algorithm was LIFO or FIFO are no longer a hit because the blocks that would be replaced are chosen randomly.
   
   - Number of Memory Blocks used: 32
-  - In sequential analysis, the blocks of data, starting from 0 to 31, are placed in the cache blocks  in ascending order. There won't be any cache hits in the first run through since the cache blocks are empty in the beginning. However, the following run throughs will result in consecutive hits since the data repeats from 0 to 31 four times (as stated in the specs).
+  - In sequential analysis, the blocks of data, starting from 0 to 31, are placed in the cache blocks  in ascending order. There won't be any cache hits in the first run through since the cache blocks are empty in the beginning. However, the following run throughs will result in consecutive hits since the data repeats from 0 to 31 three more times (as stated in the specs).
 
 - Random Sequence
   - analysis here
