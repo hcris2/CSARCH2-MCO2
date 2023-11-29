@@ -16,7 +16,6 @@ Specifications of the cache simulation system: **FA + Random Replacement Algorit
 Random Function Used: `Math.floor(Math.random() * cacheSize)`
 
 - Sequential Sequence
-  - analysis here
   - 
 - Random Sequence
   - analysis here
