@@ -13,9 +13,17 @@
 
 ## Specifications of the cache simulation system: 
 
-**FA + Random Replacement Algorithm**
+_**FA + Random Replacement Algorithm**_
 
-Random Function Used: `Math.floor(Math.random() * cacheSize)`
+**Cache Specifications:**
+
+**Number of Cache Blocks**: 32
+
+**Cache Line**: 64 Words
+
+**Read Policy**: Load-through
+
+**Random Function Used**: `Math.floor(Math.random() * cacheSize)`
 
 Number of Memory Blocks used: 32
 The memory blocks are stored in the cache blocks based on two factors
