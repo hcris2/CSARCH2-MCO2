@@ -5,6 +5,7 @@ let currentStep = 0; // Variable to keep track of the current simulation step
 let totalAccesses = 0;
 let cacheHits = 0;
 let cacheMisses = 0;
+let simulationIsComplete = false;
 
 let cacheAccessTime = 1; // Cache access time in ns
 let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
@@ -18,6 +19,7 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
             // Reset cache and memory
             cacheMemory.fill(null);
             memoryBlocks = [];
+            simulationIsComplete = false;
 
             // Clear the cache table
             clearCacheTable();
@@ -44,6 +46,25 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
             }
         
         }
+
+        function resetSimulation() {
+            // Clear the text log
+            document.getElementById('textLog').value = '';
+        
+            // Reset cache and memory
+            cacheMemory.fill(null);
+            memoryBlocks = [];
+            simulationIsComplete = false;
+        
+            // Clear the cache table
+            clearCacheTable();
+        
+            totalAccesses = 0;
+            cacheHits = 0;
+            cacheMisses = 0;
+            currentStep = 0;
+        }
+        
 
         function sequentialTest() {
             // Calculate the current iteration values
@@ -305,11 +326,15 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
         }
 
         function displayFinalStatistics() {
+
+        
+            simulationIsComplete = true;
+        
             let hitRate = cacheHits / totalAccesses;
             let missRate = cacheMisses / totalAccesses;
             let averageAccessTime = (hitRate * cacheAccessTime) + (missRate * missPenaltyTime);
-            let totalAccessTime = cacheHits*cacheSize + cacheMisses*missRate;
-
+            let totalAccessTime = cacheHits * cacheAccessTime + cacheMisses * missRate;
+        
             updateTextLog(`--- Test Case Complete ---`);
             updateTextLog(`Total Accesses: ${totalAccesses}`);
             updateTextLog(`Cache Hits: ${cacheHits}`);
@@ -322,11 +347,31 @@ let missPenaltyTime = 10 * cacheSize + 1; // Miss penalty time in ns
 
         function updateTextLog(message, blockNumber, cacheIndex) {
             var textLog = document.getElementById('textLog');
-            // Append the message to the text log
-            textLog.value += message + '\n';
-
+        
             // If blockNumber and cacheIndex are provided, append information about block placement
             if (blockNumber !== undefined && cacheIndex !== undefined) {
                 textLog.value += `Block ${blockNumber} placed in Cache Index ${cacheIndex}\n`;
             }
+        
+            // Append the message to the text log
+            textLog.value += message + '\n';
+            
+            if (!simulationIsComplete) {
+                // Append the table representation of the current cache memory
+                textLog.value += 'Current Cache Memory:\n';
+                textLog.value += '---------------------\n';
+                textLog.value += '| Cache Index | Data |\n';
+                textLog.value += '---------------------\n';
+            
+                // Concatenate values for each row
+                for (let i = 0; i < cacheSize; i++) {
+                    textLog.value += `| ${i}           | ${cacheMemory[i] !== null ? cacheMemory[i] : 'x'}    |\n`;
+                }
+            
+                textLog.value += '---------------------\n\n';
+            }
+
+
         }
+        
+        

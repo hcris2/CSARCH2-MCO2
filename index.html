@@ -55,6 +55,7 @@
     <div class="container">
         <h2>Cache Simulation System</h2>
         <h3>FA + Random Replacement Algorithm </h3>
+        <h4>Random Function used: Math.floor(Math.random() * cacheSize)</h4>
 
         <label for="testCases">Select Test Case:</label>
         <select id="testCases">
@@ -67,6 +68,7 @@
         <input type="number" id="memoryBlocks" min="1" placeholder="Enter the number of memory blocks">
 
         <button onclick="startSimulation()">Start Simulation</button>
+        <button onclick="resetSimulation()">Reset Simulation</button>
         <button onclick="stepByStep()">Step by Step</button>
         <button onclick="skipToEnd()">Skip to End</button>
 
