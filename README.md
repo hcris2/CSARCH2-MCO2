@@ -7,6 +7,7 @@
 4. Click **Start Simulation**
 5. Click **step-by-step** or **skip to end**
 6. To start a new simulation, press **Start Simulation** to reset the values.
+7. To clear the cache table or reset the simulation, press **Reset Simulation**.
 
 
 
