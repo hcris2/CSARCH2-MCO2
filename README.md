@@ -34,8 +34,8 @@ The memory blocks are stored in the cache blocks based on two factors
   - The hit rate and miss rate varied across different attempts, but after doing five attempts, the average hit rate was 22.812% while the average miss rate was 77.188%. The random sequence combined with the random replacement algorithm made it one of the test cases that varied more with regards to its hit rate and miss rate.
 
 - Mid-repeat Blocks
-  - In the mid-repeat test case, the length of the sequence was 94 elements.
+  - In the mid-repeat test case, the total length of the whole sequence was 376 elements.
+  - This test case had the most amount of elements in the sequence.
   -  However, because the elements were repeated across the sequence, this led to more hits compared to the other two test cases even if the replacement algorithm was chosen randomly. Because of this, the average hit rate across 5 attempts in this test case was 31.38% while the average miss rate was 68.62%
  
-We can see across the whole tests that as the amount of elements of the sequence increases, the average hit rate decreases.
 
