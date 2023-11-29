@@ -14,9 +14,9 @@
 Specifications of the cache simulation system: **FA + Random Replacement Algorithm**
 
 Random Function Used: `Math.floor(Math.random() * cacheSize)`
-
+- Number of Memory Blocks used: 32
+  
 - Sequential Sequence
-  - Number of Memory Blocks used: 32
   - In sequential analysis, the blocks of data, starting from 0 to 63, are stored in the cache blocks based on two factors:
     - First, as long as there are remaining cache blocks, the data will be placed on the next available cache.
     - Second, if there are no more remaining cache blocks, the data will be placed based on a first-in first-out basis.
